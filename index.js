@@ -19,9 +19,21 @@ const booleanparse = str => {
 console.log(booleanparse("false is wrong "));
 
 const numparse = str => {
-    let result = /[\d+]/.exec(str);
+    let result = /[\d]+/.exec(str);
     if(result === null) return null;
     let [match] = result;
-    return [match, str.slice(match.length)];
+    let value = match;
+    return [value, str.slice(match.length)];
 }
-console.log(numparse("the smallest 2 even no"));
+console.log(numparse("one two 100"));
+
+const spaceparse = str => {
+    let result = /[\s]/.exec(str);
+    if(result === null) return null;
+    let [match] = result;
+    let value = match;
+    return [value, str.slice(match.length)]
+}
+console.log(spaceparse("Be yourself"));
+
+
