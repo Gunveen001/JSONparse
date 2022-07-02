@@ -18,10 +18,10 @@ const booleanparse = str => {
 }
 console.log(booleanparse("false is wrong "));
 
-const numparse = num => {
-    let result = /[\d]+/.exec(num);
+const numparse = str => {
+    let result = /[\d+]/.exec(str);
     if(result === null) return null;
     let [match] = result;
-    return [match];
+    return [match, str.slice(match.length)];
 }
-console.log(numparse(78));
+console.log(numparse("the smallest 2 even no"));
