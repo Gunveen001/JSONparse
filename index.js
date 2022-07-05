@@ -37,3 +37,11 @@ const spaceparse = str => {
 console.log(spaceparse("Be yourself"));
 
 
+const stringparse = str => {
+    for(let i = 0; i <= str.length; i++){
+        if((str.startsWith('"')) && (str.endsWith('"'))){
+            return [str];
+        }
+    }
+}
+console.log(stringparse('"this is string"'));
