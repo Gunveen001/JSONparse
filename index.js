@@ -42,6 +42,7 @@ const stringparse = str => {
         if((str.startsWith('"')) && (str.endsWith('"'))){
             return [str];
         }
+        else return null;
     }
 }
 console.log(stringparse('"this is string"'));
