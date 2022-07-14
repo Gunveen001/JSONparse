@@ -1,53 +1,61 @@
 //String->null | [JSONvalue, String]
 
-const nullparser = str => {
+const nullParser = str => {
     let result = /^null/.exec(str);
     if (result === null) return null;
     let [match] = result;
     return [match, str.slice(match.length)];
 }
-console.log(nullparser("null is null only"));
+console.log(nullParser("null is null only"));
 
 
-const booleanparser = str => {
+const booleanParser = str => {
     let result = /^true|^false/.exec(str);
     if (result === null) return null;
     let [match] = result;
-    let value = match === 'true' || 'false';
-    return [value, str.slice(match.length)];
+    let value = match === 'true';
+    return [value];
 }
-console.log(booleanparser("false is wrong "));
+console.log(booleanParser("false is wrong "));
 
-const numparser = str => {
+const numParser = str => {
     let result = /[\d]+/.exec(str);
     if (result === null) return null;
     let [match] = result;
     let value = match;
     return [value, str.slice(match.length)];
 }
-console.log(numparser("one two 100"));
+console.log(numParser("100"));
 
-const spaceparser = str => {
+const spaceParser = str => {
     let result = /[\s]/.exec(str);
     if (result === null) return null;
     let [match] = result;
     let value = match;
-    return [value, str.slice(match.length)]
+    return [value, str.indexOf(match)]
 }
-console.log(spaceparser("Be yourself"));
+console.log(spaceParser("Be yourself"));
 
 
-const stringparser = str => {
-    let count = (str.split('"').length - 1);
-    if (count > 2 || count === 1) return null;
-    if((str.startsWith("'")) ) return null;
-    if (str === null) return null;
-    let test1 = str.indexOf('"');
-    let test2 = str.lastIndexOf('"') + 1;
-    let match = str.substring(test1, test2);
-    return [match, str.slice(match.length)];
+const stringParser = str => {
+    let test, count, str1;
+    for (let i of str) {
+        if (str.startsWith('"')) {
+            test = str.lastIndexOf('"') + 1;
+        }
+        else return 'wrong input';
+
+    }
+    let match = str.substring(0, test);
+     str1 = match.slice(1, -1);
+     count = str1.indexOf('"');
+     let count1 = (str.indexOf('\\'));
+     if ((count !== -1) && (count1 === -1)) return null;
+     else return [match, str.slice(match.length)];
 }
-console.log(stringparser('"hello" world'));
+console.log(stringParser('"hello" world'))
+
+  
 
 
 
