@@ -13,8 +13,8 @@ const booleanParser = str => {
     let result = /^true|^false/.exec(str);
     if (result === null) return null;
     let [match] = result;
-    let value = match === 'true';
-    return [value];
+    let value = match === 'true'
+    return [value, str.slice(match.length)];
 }
 console.log(booleanParser("false is wrong "));
 
@@ -32,7 +32,7 @@ const spaceParser = str => {
     if (result === null) return null;
     let [match] = result;
     let value = match;
-    return [value, str.indexOf(match)]
+    return [value, str.slice(match.length)]
 }
 console.log(spaceParser("Be yourself"));
 
@@ -40,11 +40,8 @@ console.log(spaceParser("Be yourself"));
 const stringParser = str => {
     let test, count, str1;
     for (let i of str) {
-        if (str.startsWith('"')) {
-            test = str.lastIndexOf('"') + 1;
-        }
-        else return 'wrong input';
-
+        str.startsWith('"') ? str : null;
+        test = str.lastIndexOf('"') + 1;
     }
     let match = str.substring(0, test);
      str1 = match.slice(1, -1);
@@ -53,7 +50,7 @@ const stringParser = str => {
      if ((count !== -1) && (count1 === -1)) return null;
      else return [match, str.slice(match.length)];
 }
-console.log(stringParser('"hello" world'))
+console.log(stringParser('"hello \\" world" '))
 
   
 
