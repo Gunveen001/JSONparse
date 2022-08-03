@@ -16,7 +16,7 @@ const booleanParser = str => {
     let value = match === 'true'
     return [value, str.slice(match.length)];
 }
-console.log(booleanParser("false is wrong "));
+console.log(booleanParser("true is wrong "));
 
 const numParser = str => {
     let result = /[\d]+/.exec(str);
@@ -51,7 +51,19 @@ const stringParser = str => {
      else return [match, str.slice(match.length)];
 }
 console.log(stringParser('"hello \\" world" '))
-
+const primitiveValueParser = str => {
+    const boolValue = booleanParser(str);
+    const nullValue = nullParser(str);
+    const numValue = numParser(str);
+    const stringValue = stringParser(str);
+    if(boolValue) return boolValue;
+    else if(nullValue) return nullValue;
+    else if(numValue) return numValue;
+    else if(stringValue) return stringValue;
+    else return null;
+  }
+  console.log(primitiveValueParser('"hello\\" world"'))
+  
   
 
 
