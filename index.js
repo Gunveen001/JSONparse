@@ -38,33 +38,33 @@ console.log(spaceParser("Be yourself"));
 
 
 const stringParser = str => {
-    let test, count, str1;
+  let testDoubleQuote;
     for (let i of str) {
-        str.startsWith('"') ? str : null;
-        test = str.lastIndexOf('"') + 1;
+        if (!str.startsWith('"')) return null;
+       testDoubleQuote = str.lastIndexOf('"') + 1;
     }
-    let match = str.substring(0, test);
-     str1 = match.slice(1, -1);
-     count = str1.indexOf('"');
-     let count1 = (str.indexOf('\\'));
-     if ((count !== -1) && (count1 === -1)) return null;
-     else return [match, str.slice(match.length)];
+    let match = str.substring(0, testDoubleQuote);
+    let string = match.slice(1, -1);
+    let checkDoubleQuote = string.indexOf('"');
+    let checkBackSlash = (str.indexOf('\\'));
+    if ((checkDoubleQuote !== -1) && (checkBackSlash === -1)) return null;
+    else return [match, str.slice(match.length)];
 }
 console.log(stringParser('"hello \\" world" '))
 const primitiveValueParser = str => {
     const boolValue = booleanParser(str);
+    if (boolValue) return boolValue;
     const nullValue = nullParser(str);
+    if (nullValue) return nullValue;
     const numValue = numParser(str);
+    if (numValue) return numValue;
     const stringValue = stringParser(str);
-    if(boolValue) return boolValue;
-    else if(nullValue) return nullValue;
-    else if(numValue) return numValue;
-    else if(stringValue) return stringValue;
-    else return null;
-  }
-  console.log(primitiveValueParser('"hello\\" world"'))
-  
-  
+    if (stringValue) return stringValue;
+    return null;
+}
+console.log(primitiveValueParser('"hello\\" world"'))
+
+
 
 
 
