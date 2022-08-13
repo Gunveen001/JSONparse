@@ -39,8 +39,8 @@ console.log(spaceParser("Be yourself"));
 
 const stringParser = str => {
     let testDoubleQuote;
+    if (!str.startsWith('"')) return null;
     for (let i of str) {
-        if (!str.startsWith('"')) return null;
         testDoubleQuote = str.lastIndexOf('"') + 1;
     }
     let match = str.substring(0, testDoubleQuote);
@@ -64,21 +64,30 @@ const primitiveValueParser = str => {
 }
 console.log(primitiveValueParser('"hello\\" world"'))
 
+const commaParser = str => {
+    let result = /[,]/.exec(str);
+    if(result === null) return null;
+    let [match] = result;
+    let index = str.indexOf(match) + 1;
+    return [str.slice(index)];
+    
+    
+}
+console.log(commaParser("hello , world"));
+
 const arrayParser = str =>{
     let result = [];
+    if(!str.startsWith('[')) return null;
     for(let i of str){
-        if(!str.startsWith('[')) return null;
+      if(!str.endsWith(']')) return null;
     }
     if(str.length !== 0){
         const numValue = numParser(str);
         if (numValue) result.push(numValue);
+        const nullValue = nullParser(str);
+        if (nullValue) result.push(nullValue);
     }
     return result;
 }
-console.log(arrayParser("[1]"));
-
-
-
-
-
+console.log(arrayParser("[]"));
 
