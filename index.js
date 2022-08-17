@@ -1,4 +1,4 @@
-//String->null | [JSONvalue, String]
+//String->  null | [JSONvalue, restOfString]
 
 const nullParser = str => {
     let result = /^null/.exec(str);
@@ -73,21 +73,23 @@ const commaParser = str => {
     
     
 }
-console.log(commaParser("hello , world"));
+console.log(commaParser('hello, world'));
 
 const arrayParser = str =>{
-    let result = [];
-    if(!str.startsWith('[')) return null;
-    for(let i of str){
-      if(!str.endsWith(']')) return null;
-    }
-    if(str.length !== 0){
-        const numValue = numParser(str);
-        if (numValue) result.push(numValue);
-        const nullValue = nullParser(str);
-        if (nullValue) result.push(nullValue);
-    }
-    return result;
+        let newArray = [];
+        let startSquareBracket = str.startsWith('[')
+        let endSquareBracket = str.lastIndexOf(']');
+        if (!startSquareBracket) return null;
+        let foundValue = str.substring(startSquareBracket, endSquareBracket)
+        let resultString = foundValue;
+        let numValue
+        for(let i of resultString)
+        {  numValue = numParser(resultString)}
+            if(numValue) {
+                newArray.push(numValue[0])
+                resultString = commaParser(resultString)     
+            }
+             return [newArray, str.slice(endSquareBracket + 1)]
 }
-console.log(arrayParser("[]"));
+console.log(arrayParser("[1, 2] , 2 , 5"));
 
