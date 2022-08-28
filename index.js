@@ -39,7 +39,7 @@ console.log(spaceParser("Be yourself"));
 
 const stringParser = str => {
     let testDoubleQuote;
-    if (!str.startsWith('"')) return null;
+    if(!str.startsWith('"')) return null;
     for (let i of str) {
         testDoubleQuote = str.lastIndexOf('"') + 1;
     }
@@ -51,6 +51,8 @@ const stringParser = str => {
     else return [match, str.slice(match.length)];
 }
 console.log(stringParser('"hello \\" world" '))
+
+
 const primitiveValueParser = str => {
     const boolValue = booleanParser(str);
     if (boolValue) return boolValue;
@@ -66,30 +68,34 @@ console.log(primitiveValueParser('"hello\\" world"'))
 
 const commaParser = str => {
     let result = /[,]/.exec(str);
-    if(result === null) return null;
+    if (result === null) return null;
     let [match] = result;
     let index = str.indexOf(match) + 1;
-    return [str.slice(index)];
-    
-    
+    return str.slice(index);
+
+
 }
 console.log(commaParser('hello, world'));
 
-const arrayParser = str =>{
-        let newArray = [];
-        let startSquareBracket = str.startsWith('[')
-        let endSquareBracket = str.lastIndexOf(']');
-        if (!startSquareBracket) return null;
-        let foundValue = str.substring(startSquareBracket, endSquareBracket)
-        let resultString = foundValue;
-        let numValue
-        for(let i of resultString)
-        {  numValue = numParser(resultString)}
-            if(numValue) {
-                newArray.push(numValue[0])
-                resultString = commaParser(resultString)     
-            }
-             return [newArray, str.slice(endSquareBracket + 1)]
+const arrayParser = str => {
+    let newArray = [];
+    let startSquareBracket = str.startsWith('[')
+    let endSquareBracket = str.lastIndexOf(']');
+    if (!startSquareBracket) return null;
+    let foundValue;
+    for(let i of str)
+   { foundValue = str.substring(startSquareBracket, endSquareBracket)}
+    let resultString = foundValue;
+        let numValue = numParser(resultString)
+        if (numValue) newArray.push(numValue[0]);
+        resultString = commaParser(resultString)
+        let nullValue = nullParser(resultString)
+        if (nullValue) newArray.push(nullValue[0])
+        resultString = commaParser(resultString)
+        let boolValue = booleanParser(resultString)
+        if (boolValue) newArray.push(boolValue[0])
+        resultString = commaParser(resultString)
+     return [newArray, str.slice(endSquareBracket + 1)]
 }
-console.log(arrayParser("[1, 2] , 2 , 5"));
+console.log(arrayParser("[1, true] , 2 , 5"));
 
