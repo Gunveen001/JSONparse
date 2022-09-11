@@ -1,7 +1,7 @@
 //String->  null | [JSONvalue, restOfString]
 
 const nullParser = str => {
-    let result = /^null/.exec(str);
+    let result = /null/.exec(str);
     if (result === null) return null;
     let [match] = result;
     return [match, str.slice(match.length)];
@@ -10,7 +10,7 @@ console.log(nullParser("null is null only"));
 
 
 const booleanParser = str => {
-    let result = /^true|^false/.exec(str);
+    let result = /true|false/.exec(str);
     if (result === null) return null;
     let [match] = result;
     let value = match === 'true'
@@ -87,15 +87,19 @@ const arrayParser = str => {
    { foundValue = str.substring(startSquareBracket, endSquareBracket)}
     let resultString = foundValue;
         let numValue = numParser(resultString)
-        if (numValue) newArray.push(numValue[0]);
-        resultString = commaParser(resultString)
+        if (numValue) {newArray.push(numValue[0]);
+        resultString = commaParser(resultString)}
+        let boolValue =  booleanParser(resultString)
+        if(boolValue) {
+            newArray.push(boolValue[0])
+            resultString = commaParser(resultString)
+        }
         let nullValue = nullParser(resultString)
-        if (nullValue) newArray.push(nullValue[0])
-        resultString = commaParser(resultString)
-        let boolValue = booleanParser(resultString)
-        if (boolValue) newArray.push(boolValue[0])
-        resultString = commaParser(resultString)
+        if(nullValue)   
+        { newArray.push(nullValue[0])
+            resultString = commaParser(resultString)}
+            
      return [newArray, str.slice(endSquareBracket + 1)]
 }
-console.log(arrayParser("[1, true] , 2 , 5"));
+console.log(arrayParser('[1, true, null, "hello world"] , 2 , 5'));
 
